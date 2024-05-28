@@ -11,13 +11,19 @@ async function connect() {
     await sequelize.sync();
     console.log('All models were synchronized successfully.');
     const email="seller5@gmail.co"
-    const user = await Seller.findOne({ where: { id: 14 } });
+
+    // const seller = await User.create({
+      
+    //   name: 'seller541',
+    //   email: 'seller5@gmail.co',
+    //   password: 'user1password',
+    //   ref_token: 'gd51gagdgd'
+    // });
+    const user = await User.findOne({ where: { id: 1 } });
     if(user)
     {
-        const op = await Seller.findByPk(user.id, {
-            include: Book,
-            });
-        console.log(op.Books);
+        const op =await user.generateAccessToken()
+        console.log(op);
     }
     // Create a user
     // const seller = await Seller.create({
