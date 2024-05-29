@@ -4,10 +4,10 @@ import Seller from "../models/seller.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import csvHandler from "../utils/CsvJSON.js";
 import Book from "../models/book.model.js";
-
+//tested
 const generateAccessAndRefreshToken = async (sellerId) => {
     try {
-        const seller = await Seller.findById({ where: { id: sellerId } })
+        const seller = await Seller.findOne({ where: { id: sellerId } })
         const accessToken = seller.generateAccessToken();
         const refreshToken = seller.generateRefreshToken()
 
@@ -21,7 +21,7 @@ const generateAccessAndRefreshToken = async (sellerId) => {
         throw new ApiError(500, "Something went wrong while generating access and refresh token");
     }
 }
-
+//tested
 const registerSeller = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     if (
@@ -44,7 +44,7 @@ const registerSeller = asyncHandler(async (req, res) => {
         new ApiResponse(201, seller, "User registered Successfully")
     )
 });
-
+//tested
 const logoutSeller = asyncHandler(async (req, res) => {
     const seller = req.seller;
     // const seller = await Seller.findOne({ where: { email: sel.email } });
@@ -56,7 +56,7 @@ const logoutSeller = asyncHandler(async (req, res) => {
     }
     return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json(new ApiResponse(200, {}, "Seller logged out successfully"));
 });
-
+//tested
 const loginSeller = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email) {
@@ -86,21 +86,21 @@ const loginSeller = asyncHandler(async (req, res) => {
         )
     )
 });
-
+//tested
 const csvController = asyncHandler(async (req, res) => {
     const sampleLocalPath = req.file?.path;
-    console.log(sampleLocalPath);
-    const data = csvHandler(sampleLocalPath);
-    console.log("data\t", data);
+    const data =await csvHandler(sampleLocalPath);
+    // console.log("data\t", data);
     const seller = req.seller;
-    data.forEach(async (element) => {
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
         const existingBook = await Book.findOne({
             where: {
                 title: element.title
             }
         })
-        if (!existingBook) {
-            throw new ApiError(401, `book with title name = ${element.title} already exists. Uploaded till this book`);
+        if (existingBook) {
+            throw new ApiError(401, `book with title ${element.title} already exists. Uploaded till index ${index}`);
         }
         const book = await Book.create({
             title: element.title,
@@ -109,7 +109,7 @@ const csvController = asyncHandler(async (req, res) => {
             price: element.price,
             seller_id: seller.id,
         });
-    });
+    }
 
     return res.status(200).json(
         new ApiResponse(200,
