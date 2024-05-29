@@ -7,7 +7,6 @@ dotenv.config({
 })
 connect()
     .then(() => {
-        console.log(process.env.POSTGRES_USERNAME,process.env.POSTGRES_PASSWORD);
         app.on("error",
             (error) => {
                 console.log("error", error);

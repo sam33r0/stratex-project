@@ -19,7 +19,9 @@ import userRouter from "./routes/user.routes.js"
 app.use("/api/users", userRouter)
 import sellerRouter from "./routes/seller.routes.js"
 app.use("/api/sellers", sellerRouter)
-import bookRouter from "./routes/book.routes.js"
-app.use("/api/books", bookRouter) 
+import userBookRouter from "./routes/userBook.routes.js";
+app.use("/api/users/books", userBookRouter)
+import sellerBookRouter from "./routes/sellerBook.routes.js";
+app.use("/api/seller/books", sellerBookRouter)
 
 export { app };

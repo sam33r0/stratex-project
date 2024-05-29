@@ -44,7 +44,7 @@ const findBook = asyncHandler(async (req, res) => {
 })
 //tested
 const updateBookDetails = asyncHandler(async (req, res) => {
-    const {book_id} = req.params;
+    const { book_id } = req.params;
     const { id, title, newTitle, newPrice, newPublishedDate, newAuthor } = req.body;
     if (!id && !book_id && !title) {
         throw new ApiError(401, "id not found");
@@ -100,9 +100,42 @@ const addBook = asyncHandler(async (req, res) => {
     return res.status(201).json(new ApiResponse(201, book, "book added"));
 })
 
+const deleteBook = asyncHandler(async (req, res) => {
+    const { book_id } = req.params;
+    const { id, title } = req.body;
+    if (!id && !book_id && !title) {
+        throw new ApiError(401, "id not found");
+    }
+    const seller = req.seller;
+    let book;
+    const ids = id || book_id;
+    if (ids) {
+        book = await Book.findByPk(ids, {
+            include: Seller
+        })
+    }
+    if (!book && title) {
+        book = await Book.findOne({
+            where: {
+                title: title
+            },
+            include: Seller
+        })
+    }
+    if (!book) {
+        throw new ApiError(401, "Book not found");
+    }
+    if (book.seller_id != seller.id) {
+        throw new ApiError(401, "cannot delete because of unauthorized request");
+    }
+    await book.destroy();
+    return res.status(201).json(new ApiResponse(201, {}, "book deleted"));
+})
+
 export {
     findAllBooks,
     findBook,
     updateBookDetails,
-    addBook
+    addBook,
+    deleteBook
 }
