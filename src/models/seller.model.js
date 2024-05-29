@@ -58,4 +58,5 @@ Seller.prototype.generateRefreshToken = function(){
         }
     )
 }
+
 export default Seller;

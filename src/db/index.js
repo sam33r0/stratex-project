@@ -19,12 +19,12 @@ async function connect() {
     //   password: 'user1password',
     //   ref_token: 'gd51gagdgd'
     // });
-    const user = await User.findOne({ where: { id: 1 } });
-    if(user)
-    {
-        const op =await user.generateAccessToken()
-        console.log(op);
-    }
+    // const user = await User.findOne({ where: { id: 1 } });
+    // if(user)
+    // {
+    //     const op =await user.generateAccessToken()
+    //     console.log(op);
+    // }
     // Create a user
     // const seller = await Seller.create({
       

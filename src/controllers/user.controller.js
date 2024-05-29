@@ -1,8 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
-import { User } from "../models/user.model.js"
+import User from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { where } from "sequelize";
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -44,6 +43,19 @@ const registerUser = asyncHandler(async (req, res) => {
     )
 });
 
+const logoutUser= asyncHandler(async (req,res) => {
+    const user= req.user;
+    // const user = await User.findOne({ where: { email: us.email } });
+    user.ref_token= '';
+    await user.save();
+    const options = {
+        httpOnly: true,
+        secure: true,
+    }
+    return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json(new ApiResponse(200, {}, "user logged out successfully"));
+
+})
+
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email) {
@@ -74,4 +86,8 @@ const loginUser = asyncHandler(async (req, res) => {
     )
 });
 
-export {registerUser,loginUser}
+export {
+    registerUser,
+    loginUser,
+    logoutUser
+}
