@@ -41,7 +41,7 @@ const registerSeller = asyncHandler(async (req, res) => {
     });
 
     return res.status(201).json(
-        new ApiResponse(201, seller, "User registered Successfully")
+        new ApiResponse(201, seller, "Seller registered Successfully")
     )
 });
 //tested

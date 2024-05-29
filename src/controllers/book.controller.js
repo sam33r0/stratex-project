@@ -99,7 +99,7 @@ const addBook = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Unable to create entry ");
     return res.status(201).json(new ApiResponse(201, book, "book added"));
 })
-
+//tested
 const deleteBook = asyncHandler(async (req, res) => {
     const { book_id } = req.params;
     const { id, title } = req.body;

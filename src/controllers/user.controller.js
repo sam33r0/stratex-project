@@ -2,7 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
 import User from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
-
+//tested
 const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findOne({ where: { id: userId } })
@@ -19,7 +19,7 @@ const generateAccessAndRefreshToken = async (userId) => {
         throw new ApiError(500, "Something went wrong while generating access and refresh token");
     }
 }
-
+//tested
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     if (
@@ -42,7 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
         new ApiResponse(201, user, "User registered Successfully")
     )
 });
-
+//tested
 const logoutUser= asyncHandler(async (req,res) => {
     const user= req.user;
     // const user = await User.findOne({ where: { email: us.email } });
@@ -55,7 +55,7 @@ const logoutUser= asyncHandler(async (req,res) => {
     return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json(new ApiResponse(200, {}, "user logged out successfully"));
 
 })
-
+//tested
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email) {
