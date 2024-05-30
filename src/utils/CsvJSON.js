@@ -3,7 +3,6 @@ import fs from "fs"
 import { ApiError } from './ApiError.js';
 
 const csvHandler = async (localFilePath) => {
-    let flag = false;
     const results = [];
     if (!localFilePath) {
         throw new ApiError(401, "no file found");
