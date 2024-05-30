@@ -8,7 +8,7 @@
 
 # update ./src/db/dbConfig.js file with host and other details.
 
-# Create a .env file with your usernama, password and secret
+# Create a .env file with your username, password and secret
 
 example .env is
 POSTGRES_USERNAME= postgres
